@@ -5,29 +5,29 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 public class ApmPolicyGroupMappingPK implements Serializable {
-    private int policyGrpId;
-    private int appId;
+    private Integer policyGrpId;
+    private Integer appId;
 
     @Column(name = "POLICY_GRP_ID")
     @Id
-    public int getPolicyGrpId() {
+    public Integer getPolicyGrpId() {
         return policyGrpId;
     }
 
-    public void setPolicyGrpId(int policyGrpId) {
+    public void setPolicyGrpId(Integer policyGrpId) {
         this.policyGrpId = policyGrpId;
     }
 
     @Column(name = "APP_ID")
     @Id
-    public int getAppId() {
+    public Integer getAppId() {
         return appId;
     }
 
-    public void setAppId(int appId) {
+    public void setAppId(Integer appId) {
         this.appId = appId;
     }
 
@@ -38,16 +38,16 @@ public class ApmPolicyGroupMappingPK implements Serializable {
 
         ApmPolicyGroupMappingPK that = (ApmPolicyGroupMappingPK) o;
 
-        if (policyGrpId != that.policyGrpId) return false;
-        if (appId != that.appId) return false;
+        if (policyGrpId != null ? !policyGrpId.equals(that.policyGrpId) : that.policyGrpId != null) return false;
+        if (appId != null ? !appId.equals(that.appId) : that.appId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = policyGrpId;
-        result = 31 * result + appId;
+        int result = policyGrpId != null ? policyGrpId.hashCode() : 0;
+        result = 31 * result + (appId != null ? appId.hashCode() : 0);
         return result;
     }
 }

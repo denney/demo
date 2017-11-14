@@ -2,26 +2,28 @@ package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_SUBSCRIBER", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmSubscriber {
-    private int subscriberId;
+    private Integer subscriberId;
     private String userId;
-    private int tenantId;
+    private Integer tenantId;
     private String emailAddress;
     private Timestamp dateSubscribed;
+    private Collection<ApmApplication> apmApplicationsBySubscriberId;
 
     @Id
     @Column(name = "SUBSCRIBER_ID")
-    public int getSubscriberId() {
+    public Integer getSubscriberId() {
         return subscriberId;
     }
 
-    public void setSubscriberId(int subscriberId) {
+    public void setSubscriberId(Integer subscriberId) {
         this.subscriberId = subscriberId;
     }
 
@@ -37,11 +39,11 @@ public class ApmSubscriber {
 
     @Basic
     @Column(name = "TENANT_ID")
-    public int getTenantId() {
+    public Integer getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(int tenantId) {
+    public void setTenantId(Integer tenantId) {
         this.tenantId = tenantId;
     }
 
@@ -72,9 +74,9 @@ public class ApmSubscriber {
 
         ApmSubscriber that = (ApmSubscriber) o;
 
-        if (subscriberId != that.subscriberId) return false;
-        if (tenantId != that.tenantId) return false;
+        if (subscriberId != null ? !subscriberId.equals(that.subscriberId) : that.subscriberId != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
         if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
         if (dateSubscribed != null ? !dateSubscribed.equals(that.dateSubscribed) : that.dateSubscribed != null)
             return false;
@@ -84,11 +86,20 @@ public class ApmSubscriber {
 
     @Override
     public int hashCode() {
-        int result = subscriberId;
+        int result = subscriberId != null ? subscriberId.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + tenantId;
+        result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
         result = 31 * result + (dateSubscribed != null ? dateSubscribed.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "apmSubscriberBySubscriberId")
+    public Collection<ApmApplication> getApmApplicationsBySubscriberId() {
+        return apmApplicationsBySubscriberId;
+    }
+
+    public void setApmApplicationsBySubscriberId(Collection<ApmApplication> apmApplicationsBySubscriberId) {
+        this.apmApplicationsBySubscriberId = apmApplicationsBySubscriberId;
     }
 }

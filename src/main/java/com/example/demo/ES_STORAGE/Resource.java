@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import java.util.Arrays;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 public class Resource {

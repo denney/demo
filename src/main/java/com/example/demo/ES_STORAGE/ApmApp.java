@@ -1,14 +1,15 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APP", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmApp {
-    private int appId;
+    private Integer appId;
     private String appProvider;
     private Integer tenantId;
     private String appName;
@@ -21,16 +22,23 @@ public class ApmApp {
     private String logOutUrl;
     private Boolean appAllowAnonymous;
     private String appEndpoint;
-    private boolean treatAsSite;
+    private Boolean treatAsSite;
     private ApmApiConsumerApps apmApiConsumerAppsBySaml2SsoIssuer;
+    private Collection<ApmAppJavaPolicyMapping> apmAppJavaPolicyMappingsByAppId;
+    private Collection<ApmAppLcEvent> apmAppLcEventsByAppId;
+    private Collection<ApmAppUrlMapping> apmAppUrlMappingsByAppId;
+    private Collection<ApmExternalStores> apmExternalStoresByAppId;
+    private Collection<ApmFavouriteApps> apmFavouriteAppsByAppId;
+    private Collection<ApmPolicyGroupMapping> apmPolicyGroupMappingsByAppId;
+    private Collection<ApmSubscription> apmSubscriptionsByAppId;
 
     @Id
     @Column(name = "APP_ID")
-    public int getAppId() {
+    public Integer getAppId() {
         return appId;
     }
 
-    public void setAppId(int appId) {
+    public void setAppId(Integer appId) {
         this.appId = appId;
     }
 
@@ -156,11 +164,11 @@ public class ApmApp {
 
     @Basic
     @Column(name = "TREAT_AS_SITE")
-    public boolean isTreatAsSite() {
+    public Boolean getTreatAsSite() {
         return treatAsSite;
     }
 
-    public void setTreatAsSite(boolean treatAsSite) {
+    public void setTreatAsSite(Boolean treatAsSite) {
         this.treatAsSite = treatAsSite;
     }
 
@@ -171,8 +179,7 @@ public class ApmApp {
 
         ApmApp apmApp = (ApmApp) o;
 
-        if (appId != apmApp.appId) return false;
-        if (treatAsSite != apmApp.treatAsSite) return false;
+        if (appId != null ? !appId.equals(apmApp.appId) : apmApp.appId != null) return false;
         if (appProvider != null ? !appProvider.equals(apmApp.appProvider) : apmApp.appProvider != null) return false;
         if (tenantId != null ? !tenantId.equals(apmApp.tenantId) : apmApp.tenantId != null) return false;
         if (appName != null ? !appName.equals(apmApp.appName) : apmApp.appName != null) return false;
@@ -189,13 +196,14 @@ public class ApmApp {
         if (appAllowAnonymous != null ? !appAllowAnonymous.equals(apmApp.appAllowAnonymous) : apmApp.appAllowAnonymous != null)
             return false;
         if (appEndpoint != null ? !appEndpoint.equals(apmApp.appEndpoint) : apmApp.appEndpoint != null) return false;
+        if (treatAsSite != null ? !treatAsSite.equals(apmApp.treatAsSite) : apmApp.treatAsSite != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = appId;
+        int result = appId != null ? appId.hashCode() : 0;
         result = 31 * result + (appProvider != null ? appProvider.hashCode() : 0);
         result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         result = 31 * result + (appName != null ? appName.hashCode() : 0);
@@ -208,7 +216,7 @@ public class ApmApp {
         result = 31 * result + (logOutUrl != null ? logOutUrl.hashCode() : 0);
         result = 31 * result + (appAllowAnonymous != null ? appAllowAnonymous.hashCode() : 0);
         result = 31 * result + (appEndpoint != null ? appEndpoint.hashCode() : 0);
-        result = 31 * result + (treatAsSite ? 1 : 0);
+        result = 31 * result + (treatAsSite != null ? treatAsSite.hashCode() : 0);
         return result;
     }
 
@@ -220,5 +228,68 @@ public class ApmApp {
 
     public void setApmApiConsumerAppsBySaml2SsoIssuer(ApmApiConsumerApps apmApiConsumerAppsBySaml2SsoIssuer) {
         this.apmApiConsumerAppsBySaml2SsoIssuer = apmApiConsumerAppsBySaml2SsoIssuer;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmAppJavaPolicyMapping> getApmAppJavaPolicyMappingsByAppId() {
+        return apmAppJavaPolicyMappingsByAppId;
+    }
+
+    public void setApmAppJavaPolicyMappingsByAppId(Collection<ApmAppJavaPolicyMapping> apmAppJavaPolicyMappingsByAppId) {
+        this.apmAppJavaPolicyMappingsByAppId = apmAppJavaPolicyMappingsByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmAppLcEvent> getApmAppLcEventsByAppId() {
+        return apmAppLcEventsByAppId;
+    }
+
+    public void setApmAppLcEventsByAppId(Collection<ApmAppLcEvent> apmAppLcEventsByAppId) {
+        this.apmAppLcEventsByAppId = apmAppLcEventsByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmAppUrlMapping> getApmAppUrlMappingsByAppId() {
+        return apmAppUrlMappingsByAppId;
+    }
+
+    public void setApmAppUrlMappingsByAppId(Collection<ApmAppUrlMapping> apmAppUrlMappingsByAppId) {
+        this.apmAppUrlMappingsByAppId = apmAppUrlMappingsByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmExternalStores> getApmExternalStoresByAppId() {
+        return apmExternalStoresByAppId;
+    }
+
+    public void setApmExternalStoresByAppId(Collection<ApmExternalStores> apmExternalStoresByAppId) {
+        this.apmExternalStoresByAppId = apmExternalStoresByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmFavouriteApps> getApmFavouriteAppsByAppId() {
+        return apmFavouriteAppsByAppId;
+    }
+
+    public void setApmFavouriteAppsByAppId(Collection<ApmFavouriteApps> apmFavouriteAppsByAppId) {
+        this.apmFavouriteAppsByAppId = apmFavouriteAppsByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmPolicyGroupMapping> getApmPolicyGroupMappingsByAppId() {
+        return apmPolicyGroupMappingsByAppId;
+    }
+
+    public void setApmPolicyGroupMappingsByAppId(Collection<ApmPolicyGroupMapping> apmPolicyGroupMappingsByAppId) {
+        this.apmPolicyGroupMappingsByAppId = apmPolicyGroupMappingsByAppId;
+    }
+
+    @OneToMany(mappedBy = "apmAppByAppId")
+    public Collection<ApmSubscription> getApmSubscriptionsByAppId() {
+        return apmSubscriptionsByAppId;
+    }
+
+    public void setApmSubscriptionsByAppId(Collection<ApmSubscription> apmSubscriptionsByAppId) {
+        this.apmSubscriptionsByAppId = apmSubscriptionsByAppId;
     }
 }

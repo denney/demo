@@ -3,13 +3,14 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_API_CONSUMER_APPS", schema = "PUBLIC", catalog = "ES_STORAGE")
 @IdClass(ApmApiConsumerAppsPK.class)
 public class ApmApiConsumerApps {
-    private int id;
+    private Integer id;
+    private String saml2SsoIssuer;
     private String appConsumerKey;
     private String apiTokenEndpoint;
     private String apiConsumerKey;
@@ -18,12 +19,22 @@ public class ApmApiConsumerApps {
 
     @Id
     @Column(name = "ID")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "SAML2_SSO_ISSUER")
+    public String getSaml2SsoIssuer() {
+        return saml2SsoIssuer;
+    }
+
+    public void setSaml2SsoIssuer(String saml2SsoIssuer) {
+        this.saml2SsoIssuer = saml2SsoIssuer;
     }
 
     @Id
@@ -83,7 +94,9 @@ public class ApmApiConsumerApps {
 
         ApmApiConsumerApps that = (ApmApiConsumerApps) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (saml2SsoIssuer != null ? !saml2SsoIssuer.equals(that.saml2SsoIssuer) : that.saml2SsoIssuer != null)
+            return false;
         if (appConsumerKey != null ? !appConsumerKey.equals(that.appConsumerKey) : that.appConsumerKey != null)
             return false;
         if (apiTokenEndpoint != null ? !apiTokenEndpoint.equals(that.apiTokenEndpoint) : that.apiTokenEndpoint != null)
@@ -99,7 +112,8 @@ public class ApmApiConsumerApps {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (saml2SsoIssuer != null ? saml2SsoIssuer.hashCode() : 0);
         result = 31 * result + (appConsumerKey != null ? appConsumerKey.hashCode() : 0);
         result = 31 * result + (apiTokenEndpoint != null ? apiTokenEndpoint.hashCode() : 0);
         result = 31 * result + (apiConsumerKey != null ? apiConsumerKey.hashCode() : 0);

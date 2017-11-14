@@ -3,34 +3,36 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_POLICY_GRP_PARTIAL_MAPPING", schema = "PUBLIC", catalog = "ES_STORAGE")
 @IdClass(ApmPolicyGrpPartialMappingPK.class)
 public class ApmPolicyGrpPartialMapping {
-    private int policyGrpId;
-    private int policyPartialId;
+    private Integer policyGrpId;
+    private Integer policyPartialId;
     private String effect;
     private String policyId;
+    private ApmPolicyGroup apmPolicyGroupByPolicyGrpId;
+    private ApmEntitlementPolicyPartial apmEntitlementPolicyPartialByPolicyPartialId;
 
     @Id
     @Column(name = "POLICY_GRP_ID")
-    public int getPolicyGrpId() {
+    public Integer getPolicyGrpId() {
         return policyGrpId;
     }
 
-    public void setPolicyGrpId(int policyGrpId) {
+    public void setPolicyGrpId(Integer policyGrpId) {
         this.policyGrpId = policyGrpId;
     }
 
     @Id
     @Column(name = "POLICY_PARTIAL_ID")
-    public int getPolicyPartialId() {
+    public Integer getPolicyPartialId() {
         return policyPartialId;
     }
 
-    public void setPolicyPartialId(int policyPartialId) {
+    public void setPolicyPartialId(Integer policyPartialId) {
         this.policyPartialId = policyPartialId;
     }
 
@@ -61,8 +63,9 @@ public class ApmPolicyGrpPartialMapping {
 
         ApmPolicyGrpPartialMapping that = (ApmPolicyGrpPartialMapping) o;
 
-        if (policyGrpId != that.policyGrpId) return false;
-        if (policyPartialId != that.policyPartialId) return false;
+        if (policyGrpId != null ? !policyGrpId.equals(that.policyGrpId) : that.policyGrpId != null) return false;
+        if (policyPartialId != null ? !policyPartialId.equals(that.policyPartialId) : that.policyPartialId != null)
+            return false;
         if (effect != null ? !effect.equals(that.effect) : that.effect != null) return false;
         if (policyId != null ? !policyId.equals(that.policyId) : that.policyId != null) return false;
 
@@ -71,10 +74,30 @@ public class ApmPolicyGrpPartialMapping {
 
     @Override
     public int hashCode() {
-        int result = policyGrpId;
-        result = 31 * result + policyPartialId;
+        int result = policyGrpId != null ? policyGrpId.hashCode() : 0;
+        result = 31 * result + (policyPartialId != null ? policyPartialId.hashCode() : 0);
         result = 31 * result + (effect != null ? effect.hashCode() : 0);
         result = 31 * result + (policyId != null ? policyId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "POLICY_GRP_ID", referencedColumnName = "POLICY_GRP_ID", nullable = false)
+    public ApmPolicyGroup getApmPolicyGroupByPolicyGrpId() {
+        return apmPolicyGroupByPolicyGrpId;
+    }
+
+    public void setApmPolicyGroupByPolicyGrpId(ApmPolicyGroup apmPolicyGroupByPolicyGrpId) {
+        this.apmPolicyGroupByPolicyGrpId = apmPolicyGroupByPolicyGrpId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "POLICY_PARTIAL_ID", referencedColumnName = "ENTITLEMENT_POLICY_PARTIAL_ID", nullable = false)
+    public ApmEntitlementPolicyPartial getApmEntitlementPolicyPartialByPolicyPartialId() {
+        return apmEntitlementPolicyPartialByPolicyPartialId;
+    }
+
+    public void setApmEntitlementPolicyPartialByPolicyPartialId(ApmEntitlementPolicyPartial apmEntitlementPolicyPartialByPolicyPartialId) {
+        this.apmEntitlementPolicyPartialByPolicyPartialId = apmEntitlementPolicyPartialByPolicyPartialId;
     }
 }

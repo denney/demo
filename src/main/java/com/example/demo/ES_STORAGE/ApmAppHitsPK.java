@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 public class ApmAppHitsPK implements Serializable {
     private String uuid;
     private String userId;
-    private int tenantId;
+    private Integer tenantId;
     private Timestamp hitTime;
 
     @Column(name = "UUID")
@@ -36,11 +36,11 @@ public class ApmAppHitsPK implements Serializable {
 
     @Column(name = "TENANT_ID")
     @Id
-    public int getTenantId() {
+    public Integer getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(int tenantId) {
+    public void setTenantId(Integer tenantId) {
         this.tenantId = tenantId;
     }
 
@@ -61,9 +61,9 @@ public class ApmAppHitsPK implements Serializable {
 
         ApmAppHitsPK that = (ApmAppHitsPK) o;
 
-        if (tenantId != that.tenantId) return false;
         if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
         if (hitTime != null ? !hitTime.equals(that.hitTime) : that.hitTime != null) return false;
 
         return true;
@@ -73,7 +73,7 @@ public class ApmAppHitsPK implements Serializable {
     public int hashCode() {
         int result = uuid != null ? uuid.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + tenantId;
+        result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         result = 31 * result + (hitTime != null ? hitTime.hashCode() : 0);
         return result;
     }

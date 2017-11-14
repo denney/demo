@@ -3,12 +3,12 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "IDN_OAUTH_CONSUMER_APPS", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class IdnOauthConsumerApps {
-    private int id;
+    private Integer id;
     private String consumerKey;
     private String consumerSecret;
     private String username;
@@ -22,11 +22,11 @@ public class IdnOauthConsumerApps {
 
     @Id
     @Column(name = "ID")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -127,7 +127,7 @@ public class IdnOauthConsumerApps {
 
         IdnOauthConsumerApps that = (IdnOauthConsumerApps) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (consumerKey != null ? !consumerKey.equals(that.consumerKey) : that.consumerKey != null) return false;
         if (consumerSecret != null ? !consumerSecret.equals(that.consumerSecret) : that.consumerSecret != null)
             return false;
@@ -144,7 +144,7 @@ public class IdnOauthConsumerApps {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (consumerKey != null ? consumerKey.hashCode() : 0);
         result = 31 * result + (consumerSecret != null ? consumerSecret.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);

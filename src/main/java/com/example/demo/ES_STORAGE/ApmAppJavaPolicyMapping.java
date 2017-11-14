@@ -3,32 +3,34 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APP_JAVA_POLICY_MAPPING", schema = "PUBLIC", catalog = "ES_STORAGE")
 @IdClass(ApmAppJavaPolicyMappingPK.class)
 public class ApmAppJavaPolicyMapping {
-    private int javaPolicyId;
-    private int appId;
+    private Integer javaPolicyId;
+    private Integer appId;
+    private ApmAppJavaPolicy apmAppJavaPolicyByJavaPolicyId;
+    private ApmApp apmAppByAppId;
 
     @Id
     @Column(name = "JAVA_POLICY_ID")
-    public int getJavaPolicyId() {
+    public Integer getJavaPolicyId() {
         return javaPolicyId;
     }
 
-    public void setJavaPolicyId(int javaPolicyId) {
+    public void setJavaPolicyId(Integer javaPolicyId) {
         this.javaPolicyId = javaPolicyId;
     }
 
     @Id
     @Column(name = "APP_ID")
-    public int getAppId() {
+    public Integer getAppId() {
         return appId;
     }
 
-    public void setAppId(int appId) {
+    public void setAppId(Integer appId) {
         this.appId = appId;
     }
 
@@ -39,16 +41,36 @@ public class ApmAppJavaPolicyMapping {
 
         ApmAppJavaPolicyMapping that = (ApmAppJavaPolicyMapping) o;
 
-        if (javaPolicyId != that.javaPolicyId) return false;
-        if (appId != that.appId) return false;
+        if (javaPolicyId != null ? !javaPolicyId.equals(that.javaPolicyId) : that.javaPolicyId != null) return false;
+        if (appId != null ? !appId.equals(that.appId) : that.appId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = javaPolicyId;
-        result = 31 * result + appId;
+        int result = javaPolicyId != null ? javaPolicyId.hashCode() : 0;
+        result = 31 * result + (appId != null ? appId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "JAVA_POLICY_ID", referencedColumnName = "JAVA_POLICY_ID", nullable = false)
+    public ApmAppJavaPolicy getApmAppJavaPolicyByJavaPolicyId() {
+        return apmAppJavaPolicyByJavaPolicyId;
+    }
+
+    public void setApmAppJavaPolicyByJavaPolicyId(ApmAppJavaPolicy apmAppJavaPolicyByJavaPolicyId) {
+        this.apmAppJavaPolicyByJavaPolicyId = apmAppJavaPolicyByJavaPolicyId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "APP_ID", referencedColumnName = "APP_ID", nullable = false)
+    public ApmApp getApmAppByAppId() {
+        return apmAppByAppId;
+    }
+
+    public void setApmAppByAppId(ApmApp apmAppByAppId) {
+        this.apmAppByAppId = apmAppByAppId;
     }
 }

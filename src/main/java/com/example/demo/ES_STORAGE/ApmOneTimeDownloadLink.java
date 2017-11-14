@@ -4,15 +4,15 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_ONE_TIME_DOWNLOAD_LINK", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmOneTimeDownloadLink {
-    private int id;
+    private Integer id;
     private String binaryFile;
     private String uuid;
-    private boolean isDownloaded;
+    private Boolean isDownloaded;
     private String username;
     private Integer tenantId;
     private String tenantDomain;
@@ -20,11 +20,11 @@ public class ApmOneTimeDownloadLink {
 
     @Id
     @Column(name = "ID")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,11 +50,11 @@ public class ApmOneTimeDownloadLink {
 
     @Basic
     @Column(name = "IS_DOWNLOADED")
-    public boolean isDownloaded() {
+    public Boolean getDownloaded() {
         return isDownloaded;
     }
 
-    public void setDownloaded(boolean downloaded) {
+    public void setDownloaded(Boolean downloaded) {
         isDownloaded = downloaded;
     }
 
@@ -105,10 +105,10 @@ public class ApmOneTimeDownloadLink {
 
         ApmOneTimeDownloadLink that = (ApmOneTimeDownloadLink) o;
 
-        if (id != that.id) return false;
-        if (isDownloaded != that.isDownloaded) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (binaryFile != null ? !binaryFile.equals(that.binaryFile) : that.binaryFile != null) return false;
         if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
+        if (isDownloaded != null ? !isDownloaded.equals(that.isDownloaded) : that.isDownloaded != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
         if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
         if (tenantDomain != null ? !tenantDomain.equals(that.tenantDomain) : that.tenantDomain != null) return false;
@@ -119,10 +119,10 @@ public class ApmOneTimeDownloadLink {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (binaryFile != null ? binaryFile.hashCode() : 0);
         result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
-        result = 31 * result + (isDownloaded ? 1 : 0);
+        result = 31 * result + (isDownloaded != null ? isDownloaded.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         result = 31 * result + (tenantDomain != null ? tenantDomain.hashCode() : 0);

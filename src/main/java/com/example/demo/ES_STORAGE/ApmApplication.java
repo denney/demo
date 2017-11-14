@@ -1,28 +1,31 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APPLICATION", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmApplication {
-    private int applicationId;
+    private Integer applicationId;
     private String name;
+    private Integer subscriberId;
     private String applicationTier;
     private String callbackUrl;
     private String description;
     private String applicationStatus;
     private ApmSubscriber apmSubscriberBySubscriberId;
+    private Collection<ApmSubscription> apmSubscriptionsByApplicationId;
 
     @Id
     @Column(name = "APPLICATION_ID")
-    public int getApplicationId() {
+    public Integer getApplicationId() {
         return applicationId;
     }
 
-    public void setApplicationId(int applicationId) {
+    public void setApplicationId(Integer applicationId) {
         this.applicationId = applicationId;
     }
 
@@ -34,6 +37,16 @@ public class ApmApplication {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "SUBSCRIBER_ID")
+    public Integer getSubscriberId() {
+        return subscriberId;
+    }
+
+    public void setSubscriberId(Integer subscriberId) {
+        this.subscriberId = subscriberId;
     }
 
     @Basic
@@ -83,8 +96,10 @@ public class ApmApplication {
 
         ApmApplication that = (ApmApplication) o;
 
-        if (applicationId != that.applicationId) return false;
+        if (applicationId != null ? !applicationId.equals(that.applicationId) : that.applicationId != null)
+            return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (subscriberId != null ? !subscriberId.equals(that.subscriberId) : that.subscriberId != null) return false;
         if (applicationTier != null ? !applicationTier.equals(that.applicationTier) : that.applicationTier != null)
             return false;
         if (callbackUrl != null ? !callbackUrl.equals(that.callbackUrl) : that.callbackUrl != null) return false;
@@ -97,8 +112,9 @@ public class ApmApplication {
 
     @Override
     public int hashCode() {
-        int result = applicationId;
+        int result = applicationId != null ? applicationId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (subscriberId != null ? subscriberId.hashCode() : 0);
         result = 31 * result + (applicationTier != null ? applicationTier.hashCode() : 0);
         result = 31 * result + (callbackUrl != null ? callbackUrl.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -114,5 +130,14 @@ public class ApmApplication {
 
     public void setApmSubscriberBySubscriberId(ApmSubscriber apmSubscriberBySubscriberId) {
         this.apmSubscriberBySubscriberId = apmSubscriberBySubscriberId;
+    }
+
+    @OneToMany(mappedBy = "apmApplicationByApplicationId")
+    public Collection<ApmSubscription> getApmSubscriptionsByApplicationId() {
+        return apmSubscriptionsByApplicationId;
+    }
+
+    public void setApmSubscriptionsByApplicationId(Collection<ApmSubscription> apmSubscriptionsByApplicationId) {
+        this.apmSubscriptionsByApplicationId = apmSubscriptionsByApplicationId;
     }
 }

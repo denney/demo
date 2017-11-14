@@ -4,26 +4,38 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APP_LC_EVENT", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmAppLcEvent {
-    private int eventId;
+    private Integer eventId;
+    private Integer appId;
     private String previousState;
     private String newState;
     private String userId;
-    private int tenantId;
+    private Integer tenantId;
     private Timestamp eventDate;
+    private ApmApp apmAppByAppId;
 
     @Id
     @Column(name = "EVENT_ID")
-    public int getEventId() {
+    public Integer getEventId() {
         return eventId;
     }
 
-    public void setEventId(int eventId) {
+    public void setEventId(Integer eventId) {
         this.eventId = eventId;
+    }
+
+    @Basic
+    @Column(name = "APP_ID")
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     @Basic
@@ -58,11 +70,11 @@ public class ApmAppLcEvent {
 
     @Basic
     @Column(name = "TENANT_ID")
-    public int getTenantId() {
+    public Integer getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(int tenantId) {
+    public void setTenantId(Integer tenantId) {
         this.tenantId = tenantId;
     }
 
@@ -83,12 +95,13 @@ public class ApmAppLcEvent {
 
         ApmAppLcEvent that = (ApmAppLcEvent) o;
 
-        if (eventId != that.eventId) return false;
-        if (tenantId != that.tenantId) return false;
+        if (eventId != null ? !eventId.equals(that.eventId) : that.eventId != null) return false;
+        if (appId != null ? !appId.equals(that.appId) : that.appId != null) return false;
         if (previousState != null ? !previousState.equals(that.previousState) : that.previousState != null)
             return false;
         if (newState != null ? !newState.equals(that.newState) : that.newState != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
         if (eventDate != null ? !eventDate.equals(that.eventDate) : that.eventDate != null) return false;
 
         return true;
@@ -96,12 +109,23 @@ public class ApmAppLcEvent {
 
     @Override
     public int hashCode() {
-        int result = eventId;
+        int result = eventId != null ? eventId.hashCode() : 0;
+        result = 31 * result + (appId != null ? appId.hashCode() : 0);
         result = 31 * result + (previousState != null ? previousState.hashCode() : 0);
         result = 31 * result + (newState != null ? newState.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + tenantId;
+        result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         result = 31 * result + (eventDate != null ? eventDate.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "APP_ID", referencedColumnName = "APP_ID", nullable = false)
+    public ApmApp getApmAppByAppId() {
+        return apmAppByAppId;
+    }
+
+    public void setApmAppByAppId(ApmApp apmAppByAppId) {
+        this.apmAppByAppId = apmAppByAppId;
     }
 }

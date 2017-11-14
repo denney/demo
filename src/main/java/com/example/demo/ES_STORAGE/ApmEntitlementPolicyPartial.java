@@ -1,28 +1,30 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_ENTITLEMENT_POLICY_PARTIAL", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmEntitlementPolicyPartial {
-    private int entitlementPolicyPartialId;
+    private Integer entitlementPolicyPartialId;
     private String name;
     private String content;
     private Boolean shared;
     private String author;
     private String description;
     private Integer tenantId;
+    private Collection<ApmPolicyGrpPartialMapping> apmPolicyGrpPartialMappingsByEntitlementPolicyPartialId;
 
     @Id
     @Column(name = "ENTITLEMENT_POLICY_PARTIAL_ID")
-    public int getEntitlementPolicyPartialId() {
+    public Integer getEntitlementPolicyPartialId() {
         return entitlementPolicyPartialId;
     }
 
-    public void setEntitlementPolicyPartialId(int entitlementPolicyPartialId) {
+    public void setEntitlementPolicyPartialId(Integer entitlementPolicyPartialId) {
         this.entitlementPolicyPartialId = entitlementPolicyPartialId;
     }
 
@@ -93,7 +95,8 @@ public class ApmEntitlementPolicyPartial {
 
         ApmEntitlementPolicyPartial that = (ApmEntitlementPolicyPartial) o;
 
-        if (entitlementPolicyPartialId != that.entitlementPolicyPartialId) return false;
+        if (entitlementPolicyPartialId != null ? !entitlementPolicyPartialId.equals(that.entitlementPolicyPartialId) : that.entitlementPolicyPartialId != null)
+            return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (shared != null ? !shared.equals(that.shared) : that.shared != null) return false;
@@ -106,7 +109,7 @@ public class ApmEntitlementPolicyPartial {
 
     @Override
     public int hashCode() {
-        int result = entitlementPolicyPartialId;
+        int result = entitlementPolicyPartialId != null ? entitlementPolicyPartialId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (shared != null ? shared.hashCode() : 0);
@@ -114,5 +117,14 @@ public class ApmEntitlementPolicyPartial {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "apmEntitlementPolicyPartialByPolicyPartialId")
+    public Collection<ApmPolicyGrpPartialMapping> getApmPolicyGrpPartialMappingsByEntitlementPolicyPartialId() {
+        return apmPolicyGrpPartialMappingsByEntitlementPolicyPartialId;
+    }
+
+    public void setApmPolicyGrpPartialMappingsByEntitlementPolicyPartialId(Collection<ApmPolicyGrpPartialMapping> apmPolicyGrpPartialMappingsByEntitlementPolicyPartialId) {
+        this.apmPolicyGrpPartialMappingsByEntitlementPolicyPartialId = apmPolicyGrpPartialMappingsByEntitlementPolicyPartialId;
     }
 }

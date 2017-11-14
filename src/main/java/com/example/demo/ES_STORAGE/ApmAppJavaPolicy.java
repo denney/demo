@@ -1,29 +1,31 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APP_JAVA_POLICY", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmAppJavaPolicy {
-    private int javaPolicyId;
+    private Integer javaPolicyId;
     private String displayName;
     private String fullQualifiName;
     private String description;
-    private int displayOrderSeqNo;
+    private Integer displayOrderSeqNo;
     private Boolean isMandatory;
     private String policyProperties;
     private Boolean isGlobal;
+    private Collection<ApmAppJavaPolicyMapping> apmAppJavaPolicyMappingsByJavaPolicyId;
 
     @Id
     @Column(name = "JAVA_POLICY_ID")
-    public int getJavaPolicyId() {
+    public Integer getJavaPolicyId() {
         return javaPolicyId;
     }
 
-    public void setJavaPolicyId(int javaPolicyId) {
+    public void setJavaPolicyId(Integer javaPolicyId) {
         this.javaPolicyId = javaPolicyId;
     }
 
@@ -59,11 +61,11 @@ public class ApmAppJavaPolicy {
 
     @Basic
     @Column(name = "DISPLAY_ORDER_SEQ_NO")
-    public int getDisplayOrderSeqNo() {
+    public Integer getDisplayOrderSeqNo() {
         return displayOrderSeqNo;
     }
 
-    public void setDisplayOrderSeqNo(int displayOrderSeqNo) {
+    public void setDisplayOrderSeqNo(Integer displayOrderSeqNo) {
         this.displayOrderSeqNo = displayOrderSeqNo;
     }
 
@@ -104,12 +106,13 @@ public class ApmAppJavaPolicy {
 
         ApmAppJavaPolicy that = (ApmAppJavaPolicy) o;
 
-        if (javaPolicyId != that.javaPolicyId) return false;
-        if (displayOrderSeqNo != that.displayOrderSeqNo) return false;
+        if (javaPolicyId != null ? !javaPolicyId.equals(that.javaPolicyId) : that.javaPolicyId != null) return false;
         if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
         if (fullQualifiName != null ? !fullQualifiName.equals(that.fullQualifiName) : that.fullQualifiName != null)
             return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (displayOrderSeqNo != null ? !displayOrderSeqNo.equals(that.displayOrderSeqNo) : that.displayOrderSeqNo != null)
+            return false;
         if (isMandatory != null ? !isMandatory.equals(that.isMandatory) : that.isMandatory != null) return false;
         if (policyProperties != null ? !policyProperties.equals(that.policyProperties) : that.policyProperties != null)
             return false;
@@ -120,14 +123,23 @@ public class ApmAppJavaPolicy {
 
     @Override
     public int hashCode() {
-        int result = javaPolicyId;
+        int result = javaPolicyId != null ? javaPolicyId.hashCode() : 0;
         result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
         result = 31 * result + (fullQualifiName != null ? fullQualifiName.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + displayOrderSeqNo;
+        result = 31 * result + (displayOrderSeqNo != null ? displayOrderSeqNo.hashCode() : 0);
         result = 31 * result + (isMandatory != null ? isMandatory.hashCode() : 0);
         result = 31 * result + (policyProperties != null ? policyProperties.hashCode() : 0);
         result = 31 * result + (isGlobal != null ? isGlobal.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "apmAppJavaPolicyByJavaPolicyId")
+    public Collection<ApmAppJavaPolicyMapping> getApmAppJavaPolicyMappingsByJavaPolicyId() {
+        return apmAppJavaPolicyMappingsByJavaPolicyId;
+    }
+
+    public void setApmAppJavaPolicyMappingsByJavaPolicyId(Collection<ApmAppJavaPolicyMapping> apmAppJavaPolicyMappingsByJavaPolicyId) {
+        this.apmAppJavaPolicyMappingsByJavaPolicyId = apmAppJavaPolicyMappingsByJavaPolicyId;
     }
 }

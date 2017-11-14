@@ -1,27 +1,29 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_BUSINESS_OWNER", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmBusinessOwner {
-    private int ownerId;
+    private Integer ownerId;
     private String ownerName;
     private String ownerEmail;
     private String ownerDesc;
     private String ownerSite;
     private Integer tenantId;
+    private Collection<ApmBusinessOwnerProperty> apmBusinessOwnerPropertiesByOwnerId;
 
     @Id
     @Column(name = "OWNER_ID")
-    public int getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -82,7 +84,7 @@ public class ApmBusinessOwner {
 
         ApmBusinessOwner that = (ApmBusinessOwner) o;
 
-        if (ownerId != that.ownerId) return false;
+        if (ownerId != null ? !ownerId.equals(that.ownerId) : that.ownerId != null) return false;
         if (ownerName != null ? !ownerName.equals(that.ownerName) : that.ownerName != null) return false;
         if (ownerEmail != null ? !ownerEmail.equals(that.ownerEmail) : that.ownerEmail != null) return false;
         if (ownerDesc != null ? !ownerDesc.equals(that.ownerDesc) : that.ownerDesc != null) return false;
@@ -94,12 +96,21 @@ public class ApmBusinessOwner {
 
     @Override
     public int hashCode() {
-        int result = ownerId;
+        int result = ownerId != null ? ownerId.hashCode() : 0;
         result = 31 * result + (ownerName != null ? ownerName.hashCode() : 0);
         result = 31 * result + (ownerEmail != null ? ownerEmail.hashCode() : 0);
         result = 31 * result + (ownerDesc != null ? ownerDesc.hashCode() : 0);
         result = 31 * result + (ownerSite != null ? ownerSite.hashCode() : 0);
         result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "apmBusinessOwnerByOwnerId")
+    public Collection<ApmBusinessOwnerProperty> getApmBusinessOwnerPropertiesByOwnerId() {
+        return apmBusinessOwnerPropertiesByOwnerId;
+    }
+
+    public void setApmBusinessOwnerPropertiesByOwnerId(Collection<ApmBusinessOwnerProperty> apmBusinessOwnerPropertiesByOwnerId) {
+        this.apmBusinessOwnerPropertiesByOwnerId = apmBusinessOwnerPropertiesByOwnerId;
     }
 }

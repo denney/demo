@@ -3,24 +3,24 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_TIER_PERMISSIONS", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmTierPermissions {
-    private int tierPermissionsId;
+    private Integer tierPermissionsId;
     private String tier;
     private String permissionsType;
     private String roles;
-    private int tenantId;
+    private Integer tenantId;
 
     @Id
     @Column(name = "TIER_PERMISSIONS_ID")
-    public int getTierPermissionsId() {
+    public Integer getTierPermissionsId() {
         return tierPermissionsId;
     }
 
-    public void setTierPermissionsId(int tierPermissionsId) {
+    public void setTierPermissionsId(Integer tierPermissionsId) {
         this.tierPermissionsId = tierPermissionsId;
     }
 
@@ -56,11 +56,11 @@ public class ApmTierPermissions {
 
     @Basic
     @Column(name = "TENANT_ID")
-    public int getTenantId() {
+    public Integer getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(int tenantId) {
+    public void setTenantId(Integer tenantId) {
         this.tenantId = tenantId;
     }
 
@@ -71,23 +71,24 @@ public class ApmTierPermissions {
 
         ApmTierPermissions that = (ApmTierPermissions) o;
 
-        if (tierPermissionsId != that.tierPermissionsId) return false;
-        if (tenantId != that.tenantId) return false;
+        if (tierPermissionsId != null ? !tierPermissionsId.equals(that.tierPermissionsId) : that.tierPermissionsId != null)
+            return false;
         if (tier != null ? !tier.equals(that.tier) : that.tier != null) return false;
         if (permissionsType != null ? !permissionsType.equals(that.permissionsType) : that.permissionsType != null)
             return false;
         if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+        if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = tierPermissionsId;
+        int result = tierPermissionsId != null ? tierPermissionsId.hashCode() : 0;
         result = 31 * result + (tier != null ? tier.hashCode() : 0);
         result = 31 * result + (permissionsType != null ? permissionsType.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
-        result = 31 * result + tenantId;
+        result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
         return result;
     }
 }

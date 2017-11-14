@@ -1,28 +1,32 @@
 package com.example.demo.ES_STORAGE;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_POLICY_GROUP", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmPolicyGroup {
-    private int policyGrpId;
+    private Integer policyGrpId;
     private String name;
     private String authScheme;
     private String throttlingTier;
     private String userRoles;
     private Boolean urlAllowAnonymous;
     private String description;
+    private Collection<ApmAppUrlMapping> apmAppUrlMappingsByPolicyGrpId;
+    private Collection<ApmPolicyGroupMapping> apmPolicyGroupMappingsByPolicyGrpId;
+    private Collection<ApmPolicyGrpPartialMapping> apmPolicyGrpPartialMappingsByPolicyGrpId;
 
     @Id
     @Column(name = "POLICY_GRP_ID")
-    public int getPolicyGrpId() {
+    public Integer getPolicyGrpId() {
         return policyGrpId;
     }
 
-    public void setPolicyGrpId(int policyGrpId) {
+    public void setPolicyGrpId(Integer policyGrpId) {
         this.policyGrpId = policyGrpId;
     }
 
@@ -93,7 +97,7 @@ public class ApmPolicyGroup {
 
         ApmPolicyGroup that = (ApmPolicyGroup) o;
 
-        if (policyGrpId != that.policyGrpId) return false;
+        if (policyGrpId != null ? !policyGrpId.equals(that.policyGrpId) : that.policyGrpId != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (authScheme != null ? !authScheme.equals(that.authScheme) : that.authScheme != null) return false;
         if (throttlingTier != null ? !throttlingTier.equals(that.throttlingTier) : that.throttlingTier != null)
@@ -108,7 +112,7 @@ public class ApmPolicyGroup {
 
     @Override
     public int hashCode() {
-        int result = policyGrpId;
+        int result = policyGrpId != null ? policyGrpId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (authScheme != null ? authScheme.hashCode() : 0);
         result = 31 * result + (throttlingTier != null ? throttlingTier.hashCode() : 0);
@@ -116,5 +120,32 @@ public class ApmPolicyGroup {
         result = 31 * result + (urlAllowAnonymous != null ? urlAllowAnonymous.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "apmPolicyGroupByPolicyGrpId")
+    public Collection<ApmAppUrlMapping> getApmAppUrlMappingsByPolicyGrpId() {
+        return apmAppUrlMappingsByPolicyGrpId;
+    }
+
+    public void setApmAppUrlMappingsByPolicyGrpId(Collection<ApmAppUrlMapping> apmAppUrlMappingsByPolicyGrpId) {
+        this.apmAppUrlMappingsByPolicyGrpId = apmAppUrlMappingsByPolicyGrpId;
+    }
+
+    @OneToMany(mappedBy = "apmPolicyGroupByPolicyGrpId")
+    public Collection<ApmPolicyGroupMapping> getApmPolicyGroupMappingsByPolicyGrpId() {
+        return apmPolicyGroupMappingsByPolicyGrpId;
+    }
+
+    public void setApmPolicyGroupMappingsByPolicyGrpId(Collection<ApmPolicyGroupMapping> apmPolicyGroupMappingsByPolicyGrpId) {
+        this.apmPolicyGroupMappingsByPolicyGrpId = apmPolicyGroupMappingsByPolicyGrpId;
+    }
+
+    @OneToMany(mappedBy = "apmPolicyGroupByPolicyGrpId")
+    public Collection<ApmPolicyGrpPartialMapping> getApmPolicyGrpPartialMappingsByPolicyGrpId() {
+        return apmPolicyGrpPartialMappingsByPolicyGrpId;
+    }
+
+    public void setApmPolicyGrpPartialMappingsByPolicyGrpId(Collection<ApmPolicyGrpPartialMapping> apmPolicyGrpPartialMappingsByPolicyGrpId) {
+        this.apmPolicyGrpPartialMappingsByPolicyGrpId = apmPolicyGrpPartialMappingsByPolicyGrpId;
     }
 }

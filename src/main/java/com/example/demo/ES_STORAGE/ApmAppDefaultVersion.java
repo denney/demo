@@ -3,12 +3,12 @@ package com.example.demo.ES_STORAGE;
 import javax.persistence.*;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_APP_DEFAULT_VERSION", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmAppDefaultVersion {
-    private int defaultVersionId;
+    private Integer defaultVersionId;
     private String appName;
     private String appProvider;
     private String defaultAppVersion;
@@ -17,11 +17,11 @@ public class ApmAppDefaultVersion {
 
     @Id
     @Column(name = "DEFAULT_VERSION_ID")
-    public int getDefaultVersionId() {
+    public Integer getDefaultVersionId() {
         return defaultVersionId;
     }
 
-    public void setDefaultVersionId(int defaultVersionId) {
+    public void setDefaultVersionId(Integer defaultVersionId) {
         this.defaultVersionId = defaultVersionId;
     }
 
@@ -82,7 +82,8 @@ public class ApmAppDefaultVersion {
 
         ApmAppDefaultVersion that = (ApmAppDefaultVersion) o;
 
-        if (defaultVersionId != that.defaultVersionId) return false;
+        if (defaultVersionId != null ? !defaultVersionId.equals(that.defaultVersionId) : that.defaultVersionId != null)
+            return false;
         if (appName != null ? !appName.equals(that.appName) : that.appName != null) return false;
         if (appProvider != null ? !appProvider.equals(that.appProvider) : that.appProvider != null) return false;
         if (defaultAppVersion != null ? !defaultAppVersion.equals(that.defaultAppVersion) : that.defaultAppVersion != null)
@@ -96,7 +97,7 @@ public class ApmAppDefaultVersion {
 
     @Override
     public int hashCode() {
-        int result = defaultVersionId;
+        int result = defaultVersionId != null ? defaultVersionId.hashCode() : 0;
         result = 31 * result + (appName != null ? appName.hashCode() : 0);
         result = 31 * result + (appProvider != null ? appProvider.hashCode() : 0);
         result = 31 * result + (defaultAppVersion != null ? defaultAppVersion.hashCode() : 0);

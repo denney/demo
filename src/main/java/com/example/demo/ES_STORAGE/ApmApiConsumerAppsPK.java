@@ -5,19 +5,19 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 public class ApmApiConsumerAppsPK implements Serializable {
-    private int id;
+    private Integer id;
     private String appConsumerKey;
 
     @Column(name = "ID")
     @Id
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -38,7 +38,7 @@ public class ApmApiConsumerAppsPK implements Serializable {
 
         ApmApiConsumerAppsPK that = (ApmApiConsumerAppsPK) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (appConsumerKey != null ? !appConsumerKey.equals(that.appConsumerKey) : that.appConsumerKey != null)
             return false;
 
@@ -47,7 +47,7 @@ public class ApmApiConsumerAppsPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (appConsumerKey != null ? appConsumerKey.hashCode() : 0);
         return result;
     }

@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by admin on 2017/8/14.
+ * Created by admin on 2017/8/19.
  */
 @Entity
 @Table(name = "APM_WORKFLOWS", schema = "PUBLIC", catalog = "ES_STORAGE")
 public class ApmWorkflows {
-    private int wfId;
+    private Integer wfId;
     private String wfReference;
     private String wfType;
     private String wfStatus;
@@ -22,11 +22,11 @@ public class ApmWorkflows {
 
     @Id
     @Column(name = "WF_ID")
-    public int getWfId() {
+    public Integer getWfId() {
         return wfId;
     }
 
-    public void setWfId(int wfId) {
+    public void setWfId(Integer wfId) {
         this.wfId = wfId;
     }
 
@@ -127,7 +127,7 @@ public class ApmWorkflows {
 
         ApmWorkflows that = (ApmWorkflows) o;
 
-        if (wfId != that.wfId) return false;
+        if (wfId != null ? !wfId.equals(that.wfId) : that.wfId != null) return false;
         if (wfReference != null ? !wfReference.equals(that.wfReference) : that.wfReference != null) return false;
         if (wfType != null ? !wfType.equals(that.wfType) : that.wfType != null) return false;
         if (wfStatus != null ? !wfStatus.equals(that.wfStatus) : that.wfStatus != null) return false;
@@ -146,7 +146,7 @@ public class ApmWorkflows {
 
     @Override
     public int hashCode() {
-        int result = wfId;
+        int result = wfId != null ? wfId.hashCode() : 0;
         result = 31 * result + (wfReference != null ? wfReference.hashCode() : 0);
         result = 31 * result + (wfType != null ? wfType.hashCode() : 0);
         result = 31 * result + (wfStatus != null ? wfStatus.hashCode() : 0);
